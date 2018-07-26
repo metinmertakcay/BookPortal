@@ -1,1 +1,2 @@
-# BookPortal
+## Kısa Tanıtım ##
+Programda iki tip kullanıcı bulunmaktadır. Bu kullanıcılar 'user' ve 'admin' dir. Kullanıcıların user ve ya admin olarak ayrılması login ekranı ile sağlanmamıştır. Adres çubuğuna 'http://localhost:3000/admin' yazılarak adminin sahip olduğu yetkiler 'http://localhost:3000/user' ile de user kullanıcısının sahip olduğu yetkiler görülebilir ve kullanılabilir.
