@@ -1,0 +1,544 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.2.23
+-- Dumped by pg_dump version 9.2.23
+-- Started on 2018-07-27 00:19:35
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 1 (class 3079 OID 11727)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 1985 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 178 (class 1259 OID 47925)
+-- Name: book; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE book (
+    bid integer NOT NULL,
+    uid integer,
+    wid integer,
+    name character varying(30)
+);
+
+
+ALTER TABLE public.book OWNER TO postgres;
+
+--
+-- TOC entry 177 (class 1259 OID 47923)
+-- Name: book_bid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE book_bid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.book_bid_seq OWNER TO postgres;
+
+--
+-- TOC entry 1986 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: book_bid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE book_bid_seq OWNED BY book.bid;
+
+
+--
+-- TOC entry 172 (class 1259 OID 47894)
+-- Name: role; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE role (
+    rid integer NOT NULL,
+    type character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.role OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 47892)
+-- Name: role_rid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE role_rid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.role_rid_seq OWNER TO postgres;
+
+--
+-- TOC entry 1987 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: role_rid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE role_rid_seq OWNED BY role.rid;
+
+
+--
+-- TOC entry 170 (class 1259 OID 47886)
+-- Name: state; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE state (
+    sid integer NOT NULL,
+    sname character varying(30) NOT NULL
+);
+
+
+ALTER TABLE public.state OWNER TO postgres;
+
+--
+-- TOC entry 169 (class 1259 OID 47884)
+-- Name: state_sid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE state_sid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.state_sid_seq OWNER TO postgres;
+
+--
+-- TOC entry 1988 (class 0 OID 0)
+-- Dependencies: 169
+-- Name: state_sid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE state_sid_seq OWNED BY state.sid;
+
+
+--
+-- TOC entry 179 (class 1259 OID 47941)
+-- Name: userbook; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE userbook (
+    uid integer NOT NULL,
+    bid integer NOT NULL,
+    sid integer
+);
+
+
+ALTER TABLE public.userbook OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 47902)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users (
+    uid integer NOT NULL,
+    email character varying(30) NOT NULL,
+    name character varying(20) NOT NULL,
+    password character varying(30) NOT NULL,
+    rid integer
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 47900)
+-- Name: users_uid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE users_uid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_uid_seq OWNER TO postgres;
+
+--
+-- TOC entry 1989 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: users_uid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE users_uid_seq OWNED BY users.uid;
+
+
+--
+-- TOC entry 176 (class 1259 OID 47917)
+-- Name: writer; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE writer (
+    wid integer NOT NULL,
+    name character varying(20) NOT NULL,
+    surname character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.writer OWNER TO postgres;
+
+--
+-- TOC entry 175 (class 1259 OID 47915)
+-- Name: writer_wid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE writer_wid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.writer_wid_seq OWNER TO postgres;
+
+--
+-- TOC entry 1990 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: writer_wid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE writer_wid_seq OWNED BY writer.wid;
+
+
+--
+-- TOC entry 1842 (class 2604 OID 47928)
+-- Name: bid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY book ALTER COLUMN bid SET DEFAULT nextval('book_bid_seq'::regclass);
+
+
+--
+-- TOC entry 1839 (class 2604 OID 47897)
+-- Name: rid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY role ALTER COLUMN rid SET DEFAULT nextval('role_rid_seq'::regclass);
+
+
+--
+-- TOC entry 1838 (class 2604 OID 47889)
+-- Name: sid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY state ALTER COLUMN sid SET DEFAULT nextval('state_sid_seq'::regclass);
+
+
+--
+-- TOC entry 1840 (class 2604 OID 47905)
+-- Name: uid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users ALTER COLUMN uid SET DEFAULT nextval('users_uid_seq'::regclass);
+
+
+--
+-- TOC entry 1841 (class 2604 OID 47920)
+-- Name: wid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY writer ALTER COLUMN wid SET DEFAULT nextval('writer_wid_seq'::regclass);
+
+
+--
+-- TOC entry 1976 (class 0 OID 47925)
+-- Dependencies: 178
+-- Data for Name: book; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY book (bid, uid, wid, name) FROM stdin;
+1	1	1	Sözde Kızlar
+2	1	1	Yalnızız
+3	1	1	Biz İnsanlar
+4	1	1	Şimşek
+5	1	1	Canan
+6	1	2	Mai ve Siyah
+7	1	2	Kırık Hayatlar
+8	1	2	Bir Ölünün Defteri
+9	1	2	İhtiyar Dost
+10	1	3	Ateşten Gömlek
+11	2	3	Sinekli Bakkal
+12	2	3	Vurun Kahpeye
+13	2	3	Handan
+14	2	4	İstanbul Hatırası
+15	2	4	Patasana
+16	2	4	Sultanı Öldürmek
+17	2	4	Sis ve Gece
+18	2	5	Safahat
+19	2	5	Asım
+20	2	5	Hakkın Sesleri
+\.
+
+
+--
+-- TOC entry 1991 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: book_bid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('book_bid_seq', 20, true);
+
+
+--
+-- TOC entry 1970 (class 0 OID 47894)
+-- Dependencies: 172
+-- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY role (rid, type) FROM stdin;
+1	Admin
+2	User
+\.
+
+
+--
+-- TOC entry 1992 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: role_rid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('role_rid_seq', 2, true);
+
+
+--
+-- TOC entry 1968 (class 0 OID 47886)
+-- Dependencies: 170
+-- Data for Name: state; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY state (sid, sname) FROM stdin;
+1	Okudum
+2	Favori Kitaplarıma Ekle
+\.
+
+
+--
+-- TOC entry 1993 (class 0 OID 0)
+-- Dependencies: 169
+-- Name: state_sid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('state_sid_seq', 2, true);
+
+
+--
+-- TOC entry 1977 (class 0 OID 47941)
+-- Dependencies: 179
+-- Data for Name: userbook; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY userbook (uid, bid, sid) FROM stdin;
+3	1	1
+3	2	2
+4	3	1
+4	4	2
+5	5	1
+\.
+
+
+--
+-- TOC entry 1972 (class 0 OID 47902)
+-- Dependencies: 174
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users (uid, email, name, password, rid) FROM stdin;
+1	metin@gmail.com	metin	1	1
+2	ali@gmail.com	ali	2	1
+3	veli@gmail.com	veli	3	2
+4	ayşe@gmail.com	ayşe	4	2
+5	fatme@gmail.com	fatma	5	2
+6	mehmet@gmail.com	mehmet	6	2
+\.
+
+
+--
+-- TOC entry 1994 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: users_uid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('users_uid_seq', 6, true);
+
+
+--
+-- TOC entry 1974 (class 0 OID 47917)
+-- Dependencies: 176
+-- Data for Name: writer; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY writer (wid, name, surname) FROM stdin;
+1	Peyami	Safa
+2	Halit Ziya	Uşaklıgil
+3	Halide Edip	Adıvar
+4	Ahmet	Ümit
+5	Mehmet Akif	Ersoy
+\.
+
+
+--
+-- TOC entry 1995 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: writer_wid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('writer_wid_seq', 5, true);
+
+
+--
+-- TOC entry 1854 (class 2606 OID 47930)
+-- Name: book_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY book
+    ADD CONSTRAINT book_pkey PRIMARY KEY (bid);
+
+
+--
+-- TOC entry 1846 (class 2606 OID 47899)
+-- Name: role_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY role
+    ADD CONSTRAINT role_pkey PRIMARY KEY (rid);
+
+
+--
+-- TOC entry 1844 (class 2606 OID 47891)
+-- Name: state_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY state
+    ADD CONSTRAINT state_pkey PRIMARY KEY (sid);
+
+
+--
+-- TOC entry 1856 (class 2606 OID 47945)
+-- Name: userbook_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY userbook
+    ADD CONSTRAINT userbook_pkey PRIMARY KEY (uid, bid);
+
+
+--
+-- TOC entry 1848 (class 2606 OID 47909)
+-- Name: users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 1850 (class 2606 OID 47907)
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (uid);
+
+
+--
+-- TOC entry 1852 (class 2606 OID 47922)
+-- Name: writer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY writer
+    ADD CONSTRAINT writer_pkey PRIMARY KEY (wid);
+
+
+--
+-- TOC entry 1858 (class 2606 OID 47931)
+-- Name: book_uid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY book
+    ADD CONSTRAINT book_uid_fkey FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1859 (class 2606 OID 47936)
+-- Name: book_wid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY book
+    ADD CONSTRAINT book_wid_fkey FOREIGN KEY (wid) REFERENCES writer(wid) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1860 (class 2606 OID 47946)
+-- Name: userbook_sid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY userbook
+    ADD CONSTRAINT userbook_sid_fkey FOREIGN KEY (sid) REFERENCES state(sid) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1857 (class 2606 OID 47910)
+-- Name: users_rid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_rid_fkey FOREIGN KEY (rid) REFERENCES role(rid) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1984 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2018-07-27 00:19:36
+
+--
+-- PostgreSQL database dump complete
+--
+
