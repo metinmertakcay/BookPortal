@@ -2,61 +2,61 @@ import React from 'react';
 import * as ProjectAPI from '../Api/ProjectAPI';
 import Button from "../Component/Button"
 
-function Deletion(props){
-    if(props.result == 1){
+function Deletion(props) {
+    if (props.result == 1) {
         return <b>Book Deleted</b>
-    } else{
-        if(props.first){
+    } else {
+        if (props.first) {
             return ""
-        } else{
+        } else {
             return <b>This book not found</b>
         }
     }
 }
 
-class DeleteBook extends React.Component{
-    constructor(props){
+class DeleteBook extends React.Component {
+    constructor(props) {
         super(props)
-        this.state = {input:"", result:0, first:true}
+        this.state = { input: "", result: 0, first: true }
         this.handleChange = this.handleChange.bind(this)
         this.clickHandler = this.clickHandler.bind(this)
     }
 
-    handleChange(event){
-        this.setState({[event.target.name]:event.target.value})
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value })
     }
 
-    clickHandler(){
-        if(this.state.input != ""){
+    clickHandler() {
+        if (this.state.input != "") {
             // CONTROL AND DELETE DATABASE IF BOOK EXIST
-            ProjectAPI.deleteBook(this.state.input).then((result) =>{
-                if(result == 1){
-                    this.setState({result:1, first:false})
-                } else{
-                    this.setState({result:0, first:false})
+            ProjectAPI.deleteBook(this.state.input).then((result) => {
+                if (result == 1) {
+                    this.setState({ result: 1, first: false })
+                } else {
+                    this.setState({ result: 0, first: false })
                 }
             });
-        } else{
-            {alert("Book Id Is Missing")}
+        } else {
+            { alert("Book Id Is Missing") }
         }
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div align="center">
                 <h4>Delete Book</h4>
                 <table border="1">
                     <tbody>
                         <tr>
                             <td><b>Book ID: </b></td>
-                            <td><input type="number" name="input" onChange={this.handleChange}/></td>
+                            <td><input type="number" name="input" onChange={this.handleChange} /></td>
                         </tr>
                         <tr>
-                            <td colSpan="2" align="center"><Button name="Select" clickHandler={this.clickHandler}/></td>
+                            <td colSpan="2" align="center"><Button name="Select" clickHandler={this.clickHandler} /></td>
                         </tr>
                     </tbody>
                 </table>
-                <Deletion result={this.state.result} first={this.state.first}/>
+                <Deletion result={this.state.result} first={this.state.first} />
             </div>
         )
     }

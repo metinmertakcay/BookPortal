@@ -3,13 +3,14 @@ package com.obss.dao;
 import java.util.List;
 
 import com.obss.models.Book;
+import com.obss.models.ShowBook;
 import com.obss.models.Users;
 import com.obss.models.Writer;
 
 public interface UserDao {
 
 	public List<Book> findAllBook();
-	
+
 	public int getBookInsideList(int uid, int bid);
 
 	public void addBookInsideReadList(int uid, int bid);
@@ -37,4 +38,8 @@ public interface UserDao {
 	public int deleteUser(int uid);
 
 	public int updateUser(int uid, Users user);
+
+	public List<ShowBook> getBooks(String bookName);
+
+	public List<ShowBook> getAllBooks();
 }

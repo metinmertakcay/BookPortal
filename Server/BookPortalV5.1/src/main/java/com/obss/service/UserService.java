@@ -3,6 +3,7 @@ package com.obss.service;
 import java.util.List;
 
 import com.obss.models.Book;
+import com.obss.models.ShowBook;
 import com.obss.models.Users;
 import com.obss.models.Writer;
 
@@ -11,7 +12,7 @@ public interface UserService {
 	public List<Book> findAllBook();
 
 	public int getBookInsideList(int uid, int bid);
-	
+
 	public void addBookInsideReadList(int uid, int bid);
 
 	public void addBookInsideFavouriteList(int uid, int bid);
@@ -37,4 +38,8 @@ public interface UserService {
 	public int deleteUser(int uid);
 
 	public int updateUser(int uid, Users user);
+
+	public List<ShowBook> getBooks(String bookName);
+
+	public List<ShowBook> getAllBooks();
 }

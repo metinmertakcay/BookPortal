@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.obss.models.Book;
 import com.obss.models.JwtUserDetails;
+import com.obss.models.ShowBook;
 import com.obss.service.UserService;
 
 @Controller
@@ -69,5 +70,15 @@ public class BookRestController {
 	@DeleteMapping("/{bid}")
 	public int deleteBook(@PathVariable int bid) {
 		return userService.deleteBook(bid);
+	}
+	
+	@GetMapping("/get")
+	public List<ShowBook> getAllBooks() {
+		return userService.getAllBooks();
+	}
+
+	@GetMapping("/get/{name}")
+	public List<ShowBook> getBooks(@PathVariable String name) {
+		return userService.getBooks(name);
 	}
 }

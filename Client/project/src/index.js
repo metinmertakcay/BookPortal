@@ -10,9 +10,9 @@ import ProjectRouter from './ProjectRouter'
 //ReactDOM.render(<Login/>, document.getElementById('root'));
 ReactDOM.render(
     <BrowserRouter>
-        <ProjectRouter/>
+        <ProjectRouter />
     </BrowserRouter>
-    ,document.getElementById('root')
+    , document.getElementById('root')
 )
 
 registerServiceWorker();

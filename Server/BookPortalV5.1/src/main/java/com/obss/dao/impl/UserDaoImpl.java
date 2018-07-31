@@ -17,6 +17,7 @@ import com.obss.mapper.UserBookMapper;
 import com.obss.mapper.UserMapper;
 import com.obss.mapper.WriterMapper;
 import com.obss.models.Book;
+import com.obss.models.ShowBook;
 import com.obss.models.UserBook;
 import com.obss.models.Users;
 import com.obss.models.Writer;
@@ -213,6 +214,52 @@ public class UserDaoImpl implements UserDao {
 			}
 		} else {
 			return Error.USED_EMAIL.getNumber();
+		}
+	}
+	
+	public List<ShowBook> getBooks(String bookName){
+		List<ShowBook> sbooks = new ArrayList<ShowBook>();
+		List<Book> books = searchBook(bookName);
+		
+		if(books.size() != 0) {
+			int i = 0;
+			while(i < books.size()) {
+				String userName = getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?",
+				new Object[] { books.get(i).getUid() }, new UserMapper()).get(0).getName();
+				
+				String writerName = getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?",
+				new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0).getName();
+				
+				sbooks.add(new ShowBook(userName, writerName, bookName));
+				
+				i++;
+			}
+			return sbooks;
+		} else {
+			return null;
+		}
+	}
+	
+	public List<ShowBook> getAllBooks(){
+		List<ShowBook> sbooks = new ArrayList<ShowBook>();
+		List<Book> books = findAllBook();
+		
+		if(books.size() != 0) {
+			int i = 0;
+			while(i < books.size()) {
+				String userName = getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?",
+				new Object[] { books.get(i).getUid() }, new UserMapper()).get(0).getName();
+				
+				String writerName = getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?",
+				new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0).getName();
+				
+				sbooks.add(new ShowBook(userName, writerName, books.get(i).getName()));
+				
+				i++;
+			}
+			return sbooks;
+		} else {
+			return null;
 		}
 	}
 	

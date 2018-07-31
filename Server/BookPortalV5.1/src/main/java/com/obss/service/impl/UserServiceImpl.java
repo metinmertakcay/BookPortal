@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.obss.dao.UserDao;
 import com.obss.models.Book;
+import com.obss.models.ShowBook;
 import com.obss.models.Users;
 import com.obss.models.Writer;
 import com.obss.service.UserService;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
 	public int getBookInsideList(int uid, int bid) {
 		return userDao.getBookInsideList(uid, bid);
 	}
-	
+
 	public void addBookInsideReadList(int uid, int bid) {
 		userDao.addBookInsideReadList(uid, bid);
 	}
@@ -77,5 +78,13 @@ public class UserServiceImpl implements UserService {
 
 	public int updateUser(int uid, Users user) {
 		return userDao.updateUser(uid, user);
+	}
+
+	public List<ShowBook> getBooks(String bookName) {
+		return userDao.getBooks(bookName);
+	}
+
+	public List<ShowBook> getAllBooks() {
+		return userDao.getAllBooks();
 	}
 }

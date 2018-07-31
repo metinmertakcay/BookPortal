@@ -1,29 +1,29 @@
 import React from 'react';
 import * as ProjectAPI from '../Api/ProjectAPI';
 
-function Item(props){
-    return(
+function Item(props) {
+    return (
         <tr>
-            <td>{props.item.uid}</td>
-            <td>{props.item.wid}</td>
-            <td>{props.item.name}</td>
+            <td>{props.item.userName}</td>
+            <td>{props.item.writerName}</td>
+            <td>{props.item.bookName}</td>
         </tr>
     )
 }
 
-function ShowBooks(props){
-    return(
+function ShowBooks(props) {
+    return (
         <div>
             <table border="1">
                 <tbody>
                     <tr>
-                        <th>User ID</th>
-                        <th>Writer ID</th>
+                        <th>User Name</th>
+                        <th>Writer Name</th>
                         <th>Book Name</th>
                     </tr>
                     {
-                        props.books.map(function(item, i){
-                            return <Item key={i} item={item}/>
+                        props.books.map(function (item, i) {
+                            return <Item key={i} item={item} />
                         })
                     }
                 </tbody>
@@ -32,27 +32,27 @@ function ShowBooks(props){
     )
 }
 
-class SearchAllBook extends React.Component{
-    constructor(props){
+class SearchAllBook extends React.Component {
+    constructor(props) {
         super(props)
-        this.state = {books:[]}
+        this.state = { books: [] }
     }
 
-    componentDidMount(){
-        ProjectAPI.getAllBook().then((books) =>{
-            if(!books || books.hasOwnProperty('error')){
-                this.setState({books:[]})
-            } else{
-                this.setState({books:books})
+    componentDidMount() {
+        ProjectAPI.getAllBookFormat().then((books) => {
+            if (!books || books.hasOwnProperty('error')) {
+                this.setState({ books: [] })
+            } else {
+                this.setState({ books: books })
             }
         });
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div align="center">
                 <h4>All Books</h4>
-                <br/><ShowBooks books={this.state.books}/>
+                <br /><ShowBooks books={this.state.books} />
             </div>
         )
     }

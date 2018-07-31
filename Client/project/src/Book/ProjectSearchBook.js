@@ -2,79 +2,79 @@ import React from 'react';
 import * as ProjectAPI from '../Api/ProjectAPI';
 import Button from "../Component/Button"
 
-function Item(props){
-    return(
+function Item(props) {
+    return (
         <table border="1">
             <tbody>
                 <tr>
-                    <th>User ID</th>
-                    <th>Writer ID</th>
+                    <th>User Name</th>
+                    <th>Writer Name</th>
                     <th>Book Name</th>
                 </tr>
                 <tr>
-                    <td>{props.item.uid}</td>
-                    <td>{props.item.wid}</td>
-                    <td>{props.item.name}</td>
+                    <td>{props.item.userName}</td>
+                    <td>{props.item.writerName}</td>
+                    <td>{props.item.bookName}</td>
                 </tr>
             </tbody>
         </table>
     )
 }
 
-function ShowBooks(props){
-    return(
+function ShowBooks(props) {
+    return (
         <div>
             {
-                props.books.map(function(item, i){
-                    return <Item key={i} item={item}/>
+                props.books.map(function (item, i) {
+                    return <Item key={i} item={item} />
                 })
             }
         </div>
     )
 }
 
-function Print(props){
-    if(props.books.length == 0){
-        if(!props.first){
-            {alert("Book Not Found")}
+function Print(props) {
+    if (props.books.length == 0) {
+        if (!props.first) {
+            { alert("Book Not Found") }
             return ""
         }
-        else{
+        else {
             return ""
         }
-    } else{
+    } else {
         return ""
     }
 }
 
-class SearchBook extends React.Component{
-    constructor(props){
+class SearchBook extends React.Component {
+    constructor(props) {
         super(props)
-        this.state = {search:"", books:[], first:true}
+        this.state = { search: "", books: [], first: true }
         this.handleChange = this.handleChange.bind(this)
         this.clickHandler = this.clickHandler.bind(this)
     }
 
-    handleChange(event){
-        this.setState({[event.target.name]:event.target.value})
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value })
     }
 
-    clickHandler(){
-        if(this.state.search != ""){
-            ProjectAPI.getBook(this.state.search).then((books) =>{
-                if(!books || books.hasOwnProperty('error')){
-                    this.setState({books:[], first:false})
-                } else{
-                    this.setState({books:books, first:false})
+    clickHandler() {
+        if (this.state.search != "") {
+            ProjectAPI.getBookFormat(this.state.search).then((books) => {
+                if (!books || books.hasOwnProperty('error')) {
+                    this.setState({ books: [], first: false })
+                } else {
+                    this.setState({ books: books, first: false })
                 }
             });
-        } else{
-            {alert("Book Name Field Is Missing")}
+        } else {
+            { alert("Book Name Field Is Missing") }
         }
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div align="center">
                 <h4>Search Book</h4>
                 <table border="1">
@@ -84,12 +84,12 @@ class SearchBook extends React.Component{
                             <td><input type="text" name="search" onChange={this.handleChange}></input></td>
                         </tr>
                         <tr>
-                            <td colSpan="2" align="center"><Button name="Search" clickHandler={this.clickHandler}/></td>
+                            <td colSpan="2" align="center"><Button name="Search" clickHandler={this.clickHandler} /></td>
                         </tr>
                     </tbody>
                 </table>
-                <Print books={this.state.books} first={this.state.first}/>
-                <br/><ShowBooks books={this.state.books}/>
+                <Print books={this.state.books} first={this.state.first} />
+                <br /><ShowBooks books={this.state.books} />
             </div>
         )
     }

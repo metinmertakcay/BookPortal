@@ -19,9 +19,18 @@ export const getAllBook = () =>
   fetch(`${api}/rest/book`, { headers })
     .then(res => res.json())
 
+export const getBookFormat = (name) =>
+  fetch(`${api}/rest/book/get/${name}`, { headers })
+    .then(res => res.json())
+//console.log(res, name);
+
+export const getAllBookFormat = () =>
+  fetch(`${api}/rest/book/get`, { headers })
+    .then(res => res.json())
+
 export const getUser = (name) =>
   fetch(`${api}/rest/user/${name}`, { headers })
-    .then(res => { return res.json()})
+    .then(res => { return res.json() })
 
 export const deleteBook = (bookid) =>
   fetch(`${api}/rest/book/${bookid}`, {
@@ -30,7 +39,7 @@ export const deleteBook = (bookid) =>
       ...headers,
       'Content-Type': 'application/json'
     },
-  }).then(res => { return res.json()})
+  }).then(res => { return res.json() })
 
 export const deleteWriter = (writerid) =>
   fetch(`${api}/rest/writer/${writerid}`, {
@@ -39,7 +48,7 @@ export const deleteWriter = (writerid) =>
       ...headers,
       'Content-Type': 'application/json'
     },
-  }).then(res => { return res.json()})
+  }).then(res => { return res.json() })
 
 export const deleteUser = (userid) =>
   fetch(`${api}/rest/user/${userid}`, {
@@ -48,7 +57,7 @@ export const deleteUser = (userid) =>
       ...headers,
       'Content-Type': 'application/json'
     },
-  }).then(res => { return res.json()})
+  }).then(res => { return res.json() })
 
 export const saveBook = (book) =>
   fetch(`${api}/rest/book`, {
@@ -58,7 +67,7 @@ export const saveBook = (book) =>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(book)
-  }).then(res => { return res.json();})
+  }).then(res => { return res.json(); })
 
 export const saveUser = (user) =>
   fetch(`${api}/rest/user`, {
@@ -67,7 +76,7 @@ export const saveUser = (user) =>
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify( user )
+    body: JSON.stringify(user)
   }).then(res => res.json())
 
 export const saveWriter = (writer) =>
@@ -87,7 +96,7 @@ export const updateBook = (bid, book) =>
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify( book )
+    body: JSON.stringify(book)
   }).then(res => res.json())
 
 export const updateUser = (uid, user) =>
@@ -97,7 +106,7 @@ export const updateUser = (uid, user) =>
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify( user )
+    body: JSON.stringify(user)
   }).then(res => res.json())
 
 export const updateWriter = (wid, writer) =>
@@ -107,12 +116,12 @@ export const updateWriter = (wid, writer) =>
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify( writer )
+    body: JSON.stringify(writer)
   }).then(res => res.json())
 
 export const getUserForAuth = (user) =>
   fetch(`${api}/login/${user.email}/${user.password}`, { headers })
-    .then(res =>  res.json())
+    .then(res => res.json())
 
 export const getListInformation = (uid, bid) =>
   fetch(`${api}/rest/book/${uid}/${bid}`, { headers })
