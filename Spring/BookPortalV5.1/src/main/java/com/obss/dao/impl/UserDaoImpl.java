@@ -16,6 +16,7 @@ import com.obss.mapper.UserBookMapper;
 import com.obss.mapper.UserMapper;
 import com.obss.mapper.WriterMapper;
 import com.obss.models.Book;
+import com.obss.models.UserBook;
 import com.obss.models.Users;
 import com.obss.models.Writer;
 
@@ -39,6 +40,16 @@ public class UserDaoImpl implements UserDao {
 		}
 		System.out.println("Find All Book DB");
 		return books;
+	}
+
+	public int getBookInsideList(int uid, int bid) {
+		ArrayList<UserBook> userbook =  (ArrayList<UserBook>)getJdbcTemplate().query("SELECT * FROM userbook WHERE uid = ? AND bid = ?",
+				new Object[] { uid, bid }, new UserBookMapper());
+		if(userbook.size() != 0) {
+			return userbook.get(0).getSid();
+		} else {
+			return State.EMPTY.getNumber();
+		}
 	}
 
 	public void addBookInsideReadList(int uid, int bid) {
@@ -83,7 +94,7 @@ public class UserDaoImpl implements UserDao {
 			System.out.println("Insert Book DB");
 		}
 		return result;
-				
+
 	}
 
 	public int checkBookInputForm(Book book) {
@@ -101,12 +112,13 @@ public class UserDaoImpl implements UserDao {
 			return -2;
 		}
 	}
-	
+
 	public int searchBookAddingPreviously(int wid, String name) {
-		return getJdbcTemplate().query("SELECT * FROM book WHERE wid = ? AND name = ?",
-				new Object[] { wid, name }, new BookMapper()).size();
+		return getJdbcTemplate()
+				.query("SELECT * FROM book WHERE wid = ? AND name = ?", new Object[] { wid, name }, new BookMapper())
+				.size();
 	}
-	
+
 	public int searchUser(int uid) {
 		return getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?", new Object[] { uid }, new UserMapper())
 				.size();
@@ -118,7 +130,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public int updateBook(int bid, Book book) {
-		if(getJdbcTemplate().query("SELECT * FROM book WHERE bid = ?", new Object[] { bid }, new BookMapper())
+		if (getJdbcTemplate().query("SELECT * FROM book WHERE bid = ?", new Object[] { bid }, new BookMapper())
 				.size() != 0) {
 			int result = checkBookInputForm(book);
 			if (result == 1) {
@@ -130,7 +142,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		return -3;
 	}
-	
+
 	public int deleteBook(int bid) {
 		int deletedItemNumber = getJdbcTemplate().update("DELETE FROM book WHERE bid = ?", new Object[] { bid });
 		if (deletedItemNumber != 0) {
@@ -162,7 +174,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		return 0;
 	}
-	
+
 	public int deleteWriter(int wid) {
 		int deletedItemNumber = getJdbcTemplate().update("UPDATE book SET wid = ? WHERE wid = ?",
 				new Object[] { null, wid });
@@ -199,12 +211,14 @@ public class UserDaoImpl implements UserDao {
 			return 0;
 		}
 	}
-	
+
 	public int updateUser(int uid, Users user) {
-		if(getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?", new Object[] { uid }, new UserMapper()).size() != 0) {
+		if (getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?", new Object[] { uid }, new UserMapper())
+				.size() != 0) {
 			int result = checkUserInputForm(user);
 			if (result == 1) {
-				getJdbcTemplate().update("UPDATE users SET uid = ?, email = ?, name = ?, password = ?, rid = ? WHERE uid = ?",
+				getJdbcTemplate().update(
+						"UPDATE users SET uid = ?, email = ?, name = ?, password = ?, rid = ? WHERE uid = ?",
 						new Object[] { uid, user.getEmail(), user.getName(), user.getPassword(), user.getRid(), uid });
 				System.out.println("Update User DB");
 			}
@@ -212,7 +226,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		return -2;
 	}
-	
+
 	public int deleteUser(int uid) {
 		int deletedItemNumber = getJdbcTemplate().update("DELETE FROM users WHERE uid = ?", new Object[] { uid });
 		if (deletedItemNumber != 0) {
@@ -222,7 +236,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		return 0;
 	}
-
+	
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}

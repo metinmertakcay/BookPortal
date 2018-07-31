@@ -50,14 +50,19 @@ public class BookRestController {
 		return userService.updateBook(bid, book);
 	}
 
+	@GetMapping("/{uid}/{bid}")
+	public int getBookInsideList(@PathVariable int uid, @PathVariable int bid) {
+		return userService.getBookInsideList(uid, bid);
+	}
+	
 	// Verilecek sayý deðeri yapýlacak iþleri gösterecektir.
 	// Kiþinin uid ve bid eriþilmesi gerekir.
-	@PostMapping("/{sid}/{bid}")
-	public void addListBook(@PathVariable int sid, @PathVariable int bid) {
+	@PostMapping("/{uid}/{bid}/{sid}")
+	public void addListBook(@PathVariable int uid, @PathVariable int bid, @PathVariable int sid) {
 		if (sid == 1) {
-			userService.addBookInsideReadList(JwtUserDetails.getUser().getUid(), bid);
+			userService.addBookInsideReadList(uid, bid);
 		} else {
-			userService.addBookInsideFavouriteList(JwtUserDetails.getUser().getUid(), bid);
+			userService.addBookInsideFavouriteList(uid, bid);
 		}
 	}
 

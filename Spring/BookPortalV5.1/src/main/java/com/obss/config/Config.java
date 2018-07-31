@@ -3,6 +3,7 @@ package com.obss.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.Filter;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -89,8 +91,7 @@ public class Config extends WebSecurityConfigurerAdapter {
 	        .cors().and()
 	        .authorizeRequests()
 	        	.antMatchers(HttpMethod.OPTIONS).permitAll()
-	        	.antMatchers("/login/**").permitAll().
-	        and()
+	        .and()
 	        .authorizeRequests()
 	        	.antMatchers("/rest/user/**").authenticated()
 	        	.antMatchers("/rest/book/**").authenticated()
@@ -104,7 +105,7 @@ public class Config extends WebSecurityConfigurerAdapter {
 
 	     http.headers().cacheControl();
 
-		//http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Bean

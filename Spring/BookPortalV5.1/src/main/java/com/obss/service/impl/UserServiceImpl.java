@@ -23,6 +23,10 @@ public class UserServiceImpl implements UserService {
 		return userDao.findAllBook();
 	}
 
+	public int getBookInsideList(int uid, int bid) {
+		return userDao.getBookInsideList(uid, bid);
+	}
+	
 	public void addBookInsideReadList(int uid, int bid) {
 		userDao.addBookInsideReadList(uid, bid);
 	}

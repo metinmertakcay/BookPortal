@@ -1,26 +1,30 @@
 import React from "react"
 import {Switch, Route, Redirect} from "react-router-dom"
-import Admin from './ProjectAdminLink'
-import User from './ProjectUserLink'
 
-import InsertWriter from './ProjectAddWriter'
-import UpdateWriter from './ProjectUpdateWriter'
-import DeleteWriter from './ProjectDeleteWriter'
+import Admin from './Links/ProjectAdminLink'
+import User from './Links/ProjectUserLink'
 
-import SearchUser from './ProjectSearchUser'
-import InsertUser from './ProjectAddUser'
-import UpdateUser from './ProjectUpdateUser'
-import DeleteUser from "./ProjectDeleteUser";
+import InsertWriter from './Writer/ProjectAddWriter'
+import UpdateWriter from './Writer/ProjectUpdateWriter'
+import DeleteWriter from './Writer/ProjectDeleteWriter'
 
-import SearchAllBook from './ProjectSearchAllBook'
-import SearchBook from './ProjectSearchBook'
-import InsertBook from './ProjectAddBook'
-import UpdateBook from './ProjectUpdateBook'
-import DeleteBook from './ProjectDeleteBook'
+import SearchUser from './User/ProjectSearchUser'
+import InsertUser from './User/ProjectAddUser'
+import UpdateUser from './User/ProjectUpdateUser'
+import DeleteUser from "./User/ProjectDeleteUser";
+import Login from './User/ProjectLogin'
+import AddBookUserList from './User/ProjectAddBookUserList'
+import SelectList from './User/ProjectSelectListForBook'
+
+import SearchAllBook from './Book/ProjectSearchAllBook'
+import SearchBook from './Book/ProjectSearchBook'
+import InsertBook from './Book/ProjectAddBook'
+import UpdateBook from './Book/ProjectUpdateBook'
+import DeleteBook from './Book/ProjectDeleteBook'
 
 const ProjectRouter = () => (
     <Switch>
-        <Route exact path="/" render={() => <Redirect replace to="admin"/>} />
+        <Route exact path="/" render={() => <Redirect replace to="login"/>} />
         <Route path="/admin" component={Admin}/>
         
         <Route path="/insert/writer" component={InsertWriter}/>
@@ -43,10 +47,14 @@ const ProjectRouter = () => (
         <Route path="/update/book" component={UpdateBook}/>
         <Route path="/delete/book" component={DeleteBook}/>
 
+        <Route path="/login" component={Login}/>
+
         <Route exact path="/" render={() => <Redirect replace to="user"/>} />
         <Route path="/user" component={User}/>
         <Route path="/search/all/book" component={SearchAllBook}/>
         <Route path="/search/book" component={SearchBook}/>
+        <Route path="/book/add_list" component={AddBookUserList}/>
+        <Route path="/select/alist" component={SelectList}/>
     </Switch>
 );
 

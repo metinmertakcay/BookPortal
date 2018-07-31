@@ -1,7 +1,7 @@
 package com.obss.enumeration;
 
 public enum State {
-	READ(1), FAVOURITE(2);
+	EMPTY(0), READ(1), FAVOURITE(2);
 
 	private int num;
 

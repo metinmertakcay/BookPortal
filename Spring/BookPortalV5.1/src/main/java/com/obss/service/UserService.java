@@ -10,6 +10,8 @@ public interface UserService {
 
 	public ArrayList<Book> findAllBook();
 
+	public int getBookInsideList(int uid, int bid);
+	
 	public void addBookInsideReadList(int uid, int bid);
 
 	public void addBookInsideFavouriteList(int uid, int bid);

@@ -9,6 +9,8 @@ import com.obss.models.Writer;
 public interface UserDao {
 
 	public ArrayList<Book> findAllBook();
+	
+	public int getBookInsideList(int uid, int bid);
 
 	public void addBookInsideReadList(int uid, int bid);
 

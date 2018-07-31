@@ -25,7 +25,7 @@ public class UserRestController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
-
+	
 	@GetMapping("/{name}")
 	public ArrayList<Users> searchUser(@PathVariable String name) {
 		return userService.searchUser(name);
