@@ -20,7 +20,7 @@ class Login extends React.Component {
         } else if (this.state.password == "") {
             { alert("Password Field Is Empty") }
         } else {
-            var user = { email: this.state.email, password: this.state.password }
+            var user = { email: this.state.email, password: new Buffer(this.state.password).toString('base64') }
             ProjectAPI.getUserForAuth(user).then((result) => {
                 if (result == 1) {
                     // Admin

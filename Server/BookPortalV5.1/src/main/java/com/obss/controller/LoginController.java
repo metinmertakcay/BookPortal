@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.obss.enumeration.RolesInfo;
 import com.obss.mapper.RoleMapper;
 import com.obss.mapper.UserMapper;
 import com.obss.models.Role;
@@ -32,19 +33,28 @@ public class LoginController {
 
 	@GetMapping("/{email}/{password}")
 	public int getUserRole(@PathVariable String email, @PathVariable String password) {
-		Users u = jdbcTemplate.query("SELECT * FROM users WHERE email = ? AND password = ?", new Object[] { email, password }, new UserMapper()).get(0);
-		if(u != null) {
-			Role role = jdbcTemplate.query("SELECT r.* FROM users u, role r WHERE email = ? AND password = ? AND u.rid = r.rid",
-					new Object[] { email, password }, new RoleMapper()).get(0);
-			if(role.getType().equalsIgnoreCase("admin")) {
-				return 1;
+		Users u = jdbcTemplate.query("SELECT * FROM users WHERE email = ?",
+				new Object[] { email }, new UserMapper()).get(0);
+		if (u != null) {
+			int randomNumber = Integer.valueOf(u.getPassword().substring(u.getPassword().length() - 1));
+			if(!password.equals(u.getPassword().substring(randomNumber, u.getPassword().length() - 1))) {
+				return -5;
 			} else {
-				return 0;
+				Role role = jdbcTemplate
+						.query("SELECT r.* FROM users u, role r WHERE email = ? AND password = ? AND u.rid = r.rid",
+								new Object[] { email, u.getPassword() }, new RoleMapper())
+						.get(0);
+				if (role.getType().equalsIgnoreCase("admin")) {
+					return RolesInfo.ADMIN.getNumber();
+				} else {
+					return RolesInfo.USER.getNumber();
+				}
 			}
+		} else {
+			return RolesInfo.USER_ROLE_NOT_FOUND.getNumber();
 		}
-		return -1;
 	}
-	
+
 	@PostMapping
 	public String generate(@RequestBody final Users user) {
 		ArrayList<Users> users = (ArrayList<Users>) jdbcTemplate.query(

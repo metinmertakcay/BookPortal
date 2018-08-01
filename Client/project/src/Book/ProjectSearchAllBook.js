@@ -6,6 +6,7 @@ function Item(props) {
         <tr>
             <td>{props.item.userName}</td>
             <td>{props.item.writerName}</td>
+            <td>{props.item.writerSurname}</td>
             <td>{props.item.bookName}</td>
         </tr>
     )
@@ -19,6 +20,7 @@ function ShowBooks(props) {
                     <tr>
                         <th>User Name</th>
                         <th>Writer Name</th>
+                        <th>Writer Surname</th>
                         <th>Book Name</th>
                     </tr>
                     {

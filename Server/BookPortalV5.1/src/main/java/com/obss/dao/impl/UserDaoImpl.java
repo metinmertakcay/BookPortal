@@ -17,6 +17,7 @@ import com.obss.mapper.UserBookMapper;
 import com.obss.mapper.UserMapper;
 import com.obss.mapper.WriterMapper;
 import com.obss.models.Book;
+import com.obss.models.EncodePassword;
 import com.obss.models.ShowBook;
 import com.obss.models.UserBook;
 import com.obss.models.Users;
@@ -181,8 +182,8 @@ public class UserDaoImpl implements UserDao {
 	public int saveUser(Users user) {
 		int result = checkUserInputForm(user);
 		if (result == Error.OK.getNumber()) {
-			getJdbcTemplate().update("INSERT INTO users (email, name, password, rid) VALUES(?, ?, ?, ?)",
-					new Object[] { user.getEmail(), user.getName(), user.getPassword(), user.getRid() });
+			getJdbcTemplate().update("INSERT INTO users (email, name, password, rid) VALUES(?, ?, ?, ?)", new Object[] {
+					user.getEmail(), user.getName(), EncodePassword.encode(user.getPassword()), user.getRid() });
 		}
 		return result;
 	}
@@ -194,7 +195,8 @@ public class UserDaoImpl implements UserDao {
 			if (result == Error.OK.getNumber()) {
 				getJdbcTemplate().update(
 						"UPDATE users SET uid = ?, email = ?, name = ?, password = ?, rid = ? WHERE uid = ?",
-						new Object[] { uid, user.getEmail(), user.getName(), user.getPassword(), user.getRid(), uid });
+						new Object[] { uid, user.getEmail(), user.getName(), EncodePassword.encode(user.getPassword()),
+								user.getRid(), uid });
 			}
 			return result;
 		}
@@ -236,10 +238,10 @@ public class UserDaoImpl implements UserDao {
 				String userName = getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?",
 						new Object[] { books.get(i).getUid() }, new UserMapper()).get(0).getName();
 
-				String writerName = getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?",
-						new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0).getName();
+				Writer writer = (Writer)getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?",
+						new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0);
 
-				sbooks.add(new ShowBook(userName, writerName, bookName));
+				sbooks.add(new ShowBook(userName, writer.getName(), writer.getSurname(), bookName));
 
 				i++;
 			}
@@ -259,10 +261,10 @@ public class UserDaoImpl implements UserDao {
 				String userName = getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?",
 						new Object[] { books.get(i).getUid() }, new UserMapper()).get(0).getName();
 
-				String writerName = getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?",
-						new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0).getName();
+				Writer writer = (Writer) getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?",
+						new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0);
 
-				sbooks.add(new ShowBook(userName, writerName, books.get(i).getName()));
+				sbooks.add(new ShowBook(userName, writer.getName(), writer.getSurname() ,books.get(i).getName()));
 
 				i++;
 			}
