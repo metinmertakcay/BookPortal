@@ -22,6 +22,8 @@ import InsertBook from './Book/ProjectAddBook'
 import UpdateBook from './Book/ProjectUpdateBook'
 import DeleteBook from './Book/ProjectDeleteBook'
 
+import GetList from './User/ProjectUserLists'
+
 const ProjectRouter = () => (
     <Switch>
         <Route exact path="/" render={() => <Redirect replace to="login" />} />
@@ -55,6 +57,8 @@ const ProjectRouter = () => (
         <Route path="/search/book" component={SearchBook} />
         <Route path="/book/add_list" component={AddBookUserList} />
         <Route path="/select/alist" component={SelectList} />
+
+        <Route path="/get/list" component={GetList} />
     </Switch>
 );
 

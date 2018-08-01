@@ -12,6 +12,9 @@ class User extends React.Component {
                     <li><Link to={"/search/all/book"}>Look at All Book</Link><br /></li>
                     <h5>List Operations</h5>
                     <li><Link to={"/book/add_list"}>Add Book User List</Link><br /></li>
+                    <h5>Show List Operations</h5>
+                    <li><Link to={{ pathname: "/get/list", state: { sid: 1 } }}>Get Read List</Link><br /></li>
+                    <li><Link to={{ pathname: "/get/list", state: { sid: 2 } }}>Get Favourite List</Link><br /></li>
                 </ul>
             </div>
         )

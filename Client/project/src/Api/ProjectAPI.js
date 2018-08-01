@@ -135,3 +135,7 @@ export const addListInformation = (uid, bid, sid) =>
       'Content-Type': 'application/json'
     },
   })
+
+export const getUserList = (sid) =>
+  fetch(`${api}/rest/book/list/${sid}`, { headers })
+    .then(res => res.json())

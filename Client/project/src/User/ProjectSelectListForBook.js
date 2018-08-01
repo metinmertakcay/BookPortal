@@ -39,7 +39,6 @@ class SelectList extends React.Component {
                 <label>READ<input type="radio" name="result" checked={this.state.result == 1} value={1} onChange={this.handleChange} /></label>&nbsp;&nbsp;&nbsp;&nbsp;
                 <label>FAVOURITE<input type="radio" name="result" checked={this.state.result == 2} value={2} onChange={this.handleChange} /></label><br /><br />
                 <Button clickHandler={this.clickHandler} name="Submit" />
-                <div>{this.state.result}</div>
             </div>
         )
     }

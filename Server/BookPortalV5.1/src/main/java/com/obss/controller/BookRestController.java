@@ -55,7 +55,7 @@ public class BookRestController {
 	public int getBookInsideList(@PathVariable int uid, @PathVariable int bid) {
 		return userService.getBookInsideList(uid, bid);
 	}
-	
+
 	// Verilecek sayý deðeri yapýlacak iþleri gösterecektir.
 	// Kiþinin uid ve bid eriþilmesi gerekir.
 	@PostMapping("/{uid}/{bid}/{sid}")
@@ -71,7 +71,7 @@ public class BookRestController {
 	public int deleteBook(@PathVariable int bid) {
 		return userService.deleteBook(bid);
 	}
-	
+
 	@GetMapping("/get")
 	public List<ShowBook> getAllBooks() {
 		return userService.getAllBooks();
@@ -80,5 +80,10 @@ public class BookRestController {
 	@GetMapping("/get/{name}")
 	public List<ShowBook> getBooks(@PathVariable String name) {
 		return userService.getBooks(name);
+	}
+
+	@GetMapping("/list/{sid}")
+	public List<Book> getUserList(@PathVariable int sid) {
+		return userService.getUserList(sid);
 	}
 }

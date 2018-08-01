@@ -40,14 +40,14 @@ public class UserDaoImpl implements UserDao {
 			book.setName((String) (row.get("name")));
 			books.add(book);
 		}
-		
+
 		return books;
 	}
 
 	public int getBookInsideList(int uid, int bid) {
-		ArrayList<UserBook> userbook =  (ArrayList<UserBook>)getJdbcTemplate().query("SELECT * FROM userbook WHERE uid = ? AND bid = ?",
-				new Object[] { uid, bid }, new UserBookMapper());
-		if(userbook.size() != 0) {
+		ArrayList<UserBook> userbook = (ArrayList<UserBook>) getJdbcTemplate().query(
+				"SELECT * FROM userbook WHERE uid = ? AND bid = ?", new Object[] { uid, bid }, new UserBookMapper());
+		if (userbook.size() != 0) {
 			return userbook.get(0).getSid();
 		} else {
 			return State.EMPTY.getNumber();
@@ -112,19 +112,23 @@ public class UserDaoImpl implements UserDao {
 
 	public int searchBookAddingPreviously(int wid, String name) {
 		return getJdbcTemplate()
-				.query("SELECT * FROM book WHERE wid = ? AND name = ?", new Object[] { wid, name }, new BookMapper()).size();
+				.query("SELECT * FROM book WHERE wid = ? AND name = ?", new Object[] { wid, name }, new BookMapper())
+				.size();
 	}
 
 	public int searchUser(int uid) {
-		return getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?", new Object[] { uid }, new UserMapper()).size();
+		return getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?", new Object[] { uid }, new UserMapper())
+				.size();
 	}
 
 	public int searchWriter(int wid) {
-		return getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?", new Object[] { wid }, new WriterMapper()).size();
+		return getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?", new Object[] { wid }, new WriterMapper())
+				.size();
 	}
 
 	public int updateBook(int bid, Book book) {
-		if (getJdbcTemplate().query("SELECT * FROM book WHERE bid = ?", new Object[] { bid }, new BookMapper()).size() != 0) {
+		if (getJdbcTemplate().query("SELECT * FROM book WHERE bid = ?", new Object[] { bid }, new BookMapper())
+				.size() != 0) {
 			int result = checkBookInputForm(book);
 			if (result == Error.OK.getNumber()) {
 				result = getJdbcTemplate().update("UPDATE book SET bid = ?, uid = ?, wid = ?, name = ? WHERE bid = ?",
@@ -155,7 +159,8 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public int updateWriter(int wid, Writer writer) {
-		if (getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?", new Object[] { wid }, new WriterMapper()).size() != 0) {
+		if (getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?", new Object[] { wid }, new WriterMapper())
+				.size() != 0) {
 			getJdbcTemplate().update("UPDATE writer SET wid = ?, name = ?, surname = ? WHERE wid = ?",
 					new Object[] { wid, writer.getName(), writer.getSurname(), wid });
 			return Error.OK.getNumber();
@@ -183,10 +188,12 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public int updateUser(int uid, Users user) {
-		if (getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?", new Object[] { uid }, new UserMapper()).size() != 0) {
+		if (getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?", new Object[] { uid }, new UserMapper())
+				.size() != 0) {
 			int result = checkUserInputForm(user);
 			if (result == Error.OK.getNumber()) {
-				getJdbcTemplate().update("UPDATE users SET uid = ?, email = ?, name = ?, password = ?, rid = ? WHERE uid = ?",
+				getJdbcTemplate().update(
+						"UPDATE users SET uid = ?, email = ?, name = ?, password = ?, rid = ? WHERE uid = ?",
 						new Object[] { uid, user.getEmail(), user.getName(), user.getPassword(), user.getRid(), uid });
 			}
 			return result;
@@ -202,12 +209,14 @@ public class UserDaoImpl implements UserDao {
 		}
 		return Error.USER_NOT_FOUND.getNumber();
 	}
-	
+
 	public int checkUserInputForm(Users user) {
 		if (getJdbcTemplate()
-				.query("SELECT * FROM users WHERE email = ?", new Object[] { user.getEmail() }, new UserMapper()).size() == 0) {
+				.query("SELECT * FROM users WHERE email = ?", new Object[] { user.getEmail() }, new UserMapper())
+				.size() == 0) {
 			if (getJdbcTemplate()
-					.query("SELECT * FROM role WHERE rid = ?", new Object[] { user.getRid() }, new RoleMapper()).size() != 0) {
+					.query("SELECT * FROM role WHERE rid = ?", new Object[] { user.getRid() }, new RoleMapper())
+					.size() != 0) {
 				return Error.OK.getNumber();
 			} else {
 				return Error.WRONG_ROLE_ID.getNumber();
@@ -216,22 +225,22 @@ public class UserDaoImpl implements UserDao {
 			return Error.USED_EMAIL.getNumber();
 		}
 	}
-	
-	public List<ShowBook> getBooks(String bookName){
+
+	public List<ShowBook> getBooks(String bookName) {
 		List<ShowBook> sbooks = new ArrayList<ShowBook>();
 		List<Book> books = searchBook(bookName);
-		
-		if(books.size() != 0) {
+
+		if (books.size() != 0) {
 			int i = 0;
-			while(i < books.size()) {
+			while (i < books.size()) {
 				String userName = getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?",
-				new Object[] { books.get(i).getUid() }, new UserMapper()).get(0).getName();
-				
+						new Object[] { books.get(i).getUid() }, new UserMapper()).get(0).getName();
+
 				String writerName = getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?",
-				new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0).getName();
-				
+						new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0).getName();
+
 				sbooks.add(new ShowBook(userName, writerName, bookName));
-				
+
 				i++;
 			}
 			return sbooks;
@@ -239,22 +248,22 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
-	
-	public List<ShowBook> getAllBooks(){
+
+	public List<ShowBook> getAllBooks() {
 		List<ShowBook> sbooks = new ArrayList<ShowBook>();
 		List<Book> books = findAllBook();
-		
-		if(books.size() != 0) {
+
+		if (books.size() != 0) {
 			int i = 0;
-			while(i < books.size()) {
+			while (i < books.size()) {
 				String userName = getJdbcTemplate().query("SELECT * FROM users WHERE uid = ?",
-				new Object[] { books.get(i).getUid() }, new UserMapper()).get(0).getName();
-				
+						new Object[] { books.get(i).getUid() }, new UserMapper()).get(0).getName();
+
 				String writerName = getJdbcTemplate().query("SELECT * FROM writer WHERE wid = ?",
-				new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0).getName();
-				
+						new Object[] { books.get(i).getWid() }, new WriterMapper()).get(0).getName();
+
 				sbooks.add(new ShowBook(userName, writerName, books.get(i).getName()));
-				
+
 				i++;
 			}
 			return sbooks;
@@ -262,7 +271,21 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
-	
+
+	public List<Book> getUserList(int sid) {
+		List<UserBook> userbook = (List<UserBook>) getJdbcTemplate().query(
+				"SELECT * FROM userbook WHERE uid = ? AND sid = ?", new Object[] { 3, sid }, new UserBookMapper());
+		List<Book> books = new ArrayList<>();
+
+		int i = 0;
+		while (i < userbook.size()) {
+			books.add(getJdbcTemplate().query("SELECT * FROM book WHERE bid = ?",
+					new Object[] { userbook.get(i).getBid() }, new BookMapper()).get(0));
+			i++;
+		}
+		return books;
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}

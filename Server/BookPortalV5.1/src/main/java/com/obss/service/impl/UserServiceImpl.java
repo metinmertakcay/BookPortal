@@ -87,4 +87,8 @@ public class UserServiceImpl implements UserService {
 	public List<ShowBook> getAllBooks() {
 		return userDao.getAllBooks();
 	}
+
+	public List<Book> getUserList(int sid) {
+		return userDao.getUserList(sid);
+	}
 }

@@ -42,4 +42,6 @@ public interface UserService {
 	public List<ShowBook> getBooks(String bookName);
 
 	public List<ShowBook> getAllBooks();
+
+	public List<Book> getUserList(int sid);
 }
